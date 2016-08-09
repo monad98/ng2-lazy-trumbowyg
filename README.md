@@ -18,7 +18,7 @@ import { Subject } from 'rxjs/Rx'
   selector: 'my-app',
   template: `
     <h1>Angular 2 Trumbowyg Example</h1>
-    <trumbowyg [togglePreview]="showPreview" [initialContent]="initialContent" [update]="update$" (savedContent)="content=$event"></trumbowyg>
+    <trumbowyg [togglePreview]="showPreview" [initialContent]="initialContent" [update]="update$" (savedContent)="content=$event" [liveUpdate]="false"></trumbowyg>
     <button (click)="showPreview=!showPreview">Toggle Preview</button>
     <button (click)="update$.next();showPreview=true">update content with observable</button>
     <h2>Preview Mode {{showPreview ? 'On':'Off'}}</h2>

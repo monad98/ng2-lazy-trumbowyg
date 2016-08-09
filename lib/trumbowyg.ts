@@ -2,7 +2,7 @@
  * Created by monad on 2016. 7. 19..
  */
 import {
-  Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output
+    Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output
 } from '@angular/core';
 import {Observable, Subject, BehaviorSubject} from "rxjs/Rx";
 import {TrumbowygService} from "./trumbowyg.service";
@@ -31,6 +31,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
       this.content$.next(el.trumbowyg('html'));
     }
   }
+  @Input() liveUpdate = false;
   @Input('update') update: Observable<boolean>;
   @Output() private savedContent: EventEmitter<any> = new EventEmitter();
 
@@ -40,32 +41,37 @@ export class Trumbowyg implements OnInit, OnDestroy {
   private updateSubscription: any;
 
   constructor(
-    private el: ElementRef,
-    private trumbowygService: TrumbowygService
+      private el: ElementRef,
+      private trumbowygService: TrumbowygService
   ) {}
 
 
   ngOnInit () {
     this.loaded$ = this.trumbowygService.load();
     this.loadedSubscription = this.loaded$
-      .do(() => {
-        let el = jQuery(this.el.nativeElement).find('.ng-trumbowyg:first');
-        el.trumbowyg();
-      })
-      .switchMap(() => this.content$)
-      .subscribe(content => {
-        if(content) {
+        .do(() => {
           let el = jQuery(this.el.nativeElement).find('.ng-trumbowyg:first');
-          el.trumbowyg('html', content);
-          this.savedContent.emit(el.trumbowyg('html'));
-        }
-      });
+          el.trumbowyg();
+          if(this.liveUpdate) {
+            el.trumbowyg().on('tbwchange', () => {
+              this.savedContent.emit(el.trumbowyg('html'));
+            })
+          }
+        })
+        .switchMap(() => this.content$)
+        .subscribe(content => {
+          if(content) {
+            let el = jQuery(this.el.nativeElement).find('.ng-trumbowyg:first');
+            el.trumbowyg('html', content);
+            this.savedContent.emit(el.trumbowyg('html'));
+          }
+        });
 
     this.updateSubscription = this.update ? this.update
-      .subscribe(() => {
-        let el = jQuery(this.el.nativeElement).find('.ng-trumbowyg:first');
-        this.savedContent.emit(el.trumbowyg('html'));
-      }) : null;
+        .subscribe(() => {
+          let el = jQuery(this.el.nativeElement).find('.ng-trumbowyg:first');
+          this.savedContent.emit(el.trumbowyg('html'));
+        }) : null;
   }
 
   ngOnDestroy() {
