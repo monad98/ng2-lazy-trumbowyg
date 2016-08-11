@@ -13,7 +13,7 @@ declare const window: any;
 export class TrumbowygService {
 
   constructor() {
-    if(window && window.jQuery) {
+    if(window && window.jQuery && window.jQuery().on) {
       loadjs([TRUMBOWYG_STYLES_URL, TRUMBOWYG_SCRIPT_URL], 'trumbowyg');
     }
     else {
