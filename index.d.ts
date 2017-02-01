@@ -1,1 +1,2 @@
-export * from './lib/trumbowyg';
+export declare class TrumbowygModule {
+}

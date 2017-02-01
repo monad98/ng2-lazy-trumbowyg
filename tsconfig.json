@@ -1,14 +1,27 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "noEmitHelpers": true
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "declaration": true,
+    "rootDir": ".",
+    "types": [
+      "core-js"
+    ]
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "index.ts",
+    "src/trumbowyg.component.ts",
+    "src/trumbowyg.service.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false
