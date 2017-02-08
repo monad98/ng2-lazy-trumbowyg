@@ -41,3 +41,4 @@ jspm_packages
 typings
 .idea
 /npm-debug.log
+.vscode
