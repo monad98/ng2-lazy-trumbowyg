@@ -1,5 +1,5 @@
 # ng2-lazy-trumbowyg
-Angular 2 Component for async loading of Trumbowyg wysiwyg editor with [loadjs](https://github.com/muicss/loadjs)
+Angular 2 Component for async loading of [Trumbowyg](https://alex-d.github.io/Trumbowyg/) wysiwyg editor with [loadjs](https://github.com/muicss/loadjs)
 
 [plunker example app](https://plnkr.co/edit/dirpKmLNalUmz0mpdrk7?p=preview)
 
