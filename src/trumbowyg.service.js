@@ -36,3 +36,4 @@ var TrumbowygService = (function () {
     return TrumbowygService;
 }());
 exports.TrumbowygService = TrumbowygService;
+//# sourceMappingURL=trumbowyg.service.js.map

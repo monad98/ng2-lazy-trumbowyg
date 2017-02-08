@@ -107,3 +107,4 @@ Trumbowyg = __decorate([
         trumbowyg_service_1.TrumbowygService])
 ], Trumbowyg);
 exports.Trumbowyg = Trumbowyg;
+//# sourceMappingURL=trumbowyg.component.js.map

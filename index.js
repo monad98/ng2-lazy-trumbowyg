@@ -31,3 +31,4 @@ TrumbowygModule = __decorate([
     })
 ], TrumbowygModule);
 exports.TrumbowygModule = TrumbowygModule;
+//# sourceMappingURL=index.js.map
