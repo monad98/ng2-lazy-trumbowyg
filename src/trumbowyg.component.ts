@@ -33,7 +33,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
     }
   }
   @Input() liveUpdate = false;
-  @Input('update') update: Observable<boolean>;
+  @Input('update') update: Observable<any>;
   @Output() private savedContent: EventEmitter<any> = new EventEmitter();
 
   private loaded$: Observable<boolean>;

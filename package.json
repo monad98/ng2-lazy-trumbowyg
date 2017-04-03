@@ -1,6 +1,6 @@
 {
   "name": "ng2-lazy-trumbowyg",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Angular 2 Component for lazy loading of Trumbowyg wysiwyg editor",
   "main": "index.js",
   "scripts": {

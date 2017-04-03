@@ -10,7 +10,7 @@ export const TRUMBOWYG_SCRIPT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/Trum
 declare const window: any;
 declare function require(path: string) : any;
 
-
+@Injectable()
 export class TrumbowygService {
 
   private isLoaded$: Observable<boolean>;
