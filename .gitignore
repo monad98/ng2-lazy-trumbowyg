@@ -42,3 +42,7 @@ typings
 .idea
 /npm-debug.log
 .vscode
+*.ngsummary.json
+*.ngfactory.ts
+/aot/
+/dist/

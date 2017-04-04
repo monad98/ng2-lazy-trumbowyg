@@ -1,9 +1,12 @@
 # ng2-lazy-trumbowyg
-Angular 2 Component for async loading of [Trumbowyg](https://alex-d.github.io/Trumbowyg/) wysiwyg editor with [loadjs](https://github.com/muicss/loadjs)
+Angular 2 Component for async loading of [Trumbowyg](https://alex-d.github.io/Trumbowyg/) wysiwyg editor
 
 [plunker example app](https://plnkr.co/edit/dirpKmLNalUmz0mpdrk7?p=preview)
 
-[example app (github)](https://github.com/monad98/ng2-lazy-trumbowyg-example)
+[Demo app with SystemJS (github)](https://github.com/monad98/ng2-lazy-trumbowyg-example)
+
+[Demo app with Angular-CLI (github)](https://github.com/monad98/ng2-lazy-trumbowyg-example-angularCLI)
+
 # Install
 `
 npm install ng2-lazy-trumbowyg --save
@@ -63,3 +66,8 @@ export class AppComponent {
   update$: Subject<any> = new Subject();
 }
 ```
+
+# Build
+`
+npm run build
+`

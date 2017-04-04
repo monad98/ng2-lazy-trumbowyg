@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {Trumbowyg} from "./src/trumbowyg.component";
 import {TrumbowygService} from "./src/trumbowyg.service";
+import {LoadExternalFiles} from "./src/load-external-file.service";
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
+  imports: [],
   declarations: [
     Trumbowyg
   ],
   providers: [
-    TrumbowygService
+    TrumbowygService,
+    LoadExternalFiles
   ],
   exports: [
     Trumbowyg
