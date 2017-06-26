@@ -32,7 +32,9 @@ export class Trumbowyg implements OnInit, OnDestroy {
       this.content$.next(el.trumbowyg('html'));
     }
   }
+
   @Input() liveUpdate = false;
+  @Input() lang = null;
   @Input('update') update: Observable<any>;
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
@@ -40,6 +42,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
   private content$: Subject<string> = new BehaviorSubject("");
   private loadedSubscription: any;
   private updateSubscription: any;
+
 
   constructor(
       private el: ElementRef,
@@ -51,13 +54,16 @@ export class Trumbowyg implements OnInit, OnDestroy {
 
     this.loadedSubscription = this.loaded$
         .do(() => {
-          let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
-          el.trumbowyg();
-          if(this.liveUpdate) {
-            el.trumbowyg().on('tbwchange', () => {
-              this.savedContent.emit(el.trumbowyg('html'));
-            })
-          }
+          let translationLoaded$ = this.trumbowygService.translationLoaded(this.lang).filter(loaded => loaded);
+          translationLoaded$.do(() => {
+            let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
+            el.trumbowyg({lang: this.lang});
+            if(this.liveUpdate) {
+              el.trumbowyg().on('tbwchange', () => {
+                this.savedContent.emit(el.trumbowyg('html'));
+              })
+            }
+          }).subscribe();
         })
         .switchMap(() => this.content$)
         .subscribe(content => {
