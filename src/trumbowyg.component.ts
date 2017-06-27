@@ -33,7 +33,6 @@ export class Trumbowyg implements OnInit, OnDestroy {
   @Input() initialContent: string;
   @Input() liveUpdate = false;
   @Input() update: Observable<any>;
-  @Input() lang = null;
   @Input() options: any = {};
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
