@@ -1,12 +1,12 @@
 import {
-    Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output
+  Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output
 } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {TrumbowygService} from "./trumbowyg.service";
 import {Subject} from "rxjs/Subject";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/filter";
-import "rxjs/add/operator/do";
+import "rxjs/add/operator/take";
 import "rxjs/add/operator/switchMap";
 declare const jQuery: any;
 
@@ -19,70 +19,69 @@ declare const jQuery: any;
 })
 export class Trumbowyg implements OnInit, OnDestroy {
 
-  @Input('initialContent')
-  set initialContent(value: string) {
-    if(value) {
-      this.content$.next(value);
-    }
-  }
+  /**
+   * @deprecated use 'update' for a preview
+   */
   @Input('togglePreview')
   set togglePreview(value: boolean) {
     if(value === true) {
       let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
       this.content$.next(el.trumbowyg('html'));
+      console.warn("togglePreview input is deprecated. use 'update' for a preview");
     }
   }
-
+  @Input() initialContent: string;
   @Input() liveUpdate = false;
-  @Input() lang = null;
-  @Input('update') update: Observable<any>;
+  @Input() update: Observable<any>;
+  @Input() options: any = {};
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
   private loaded$: Observable<boolean>;
   private content$: Subject<string> = new BehaviorSubject("");
-  private loadedSubscription: any;
-  private updateSubscription: any;
 
+  private contentSub: any;
+  private updateSubscription: any;
+  private trumbowygEl: any;
 
   constructor(
-      private el: ElementRef,
-      private trumbowygService: TrumbowygService
+    private el: ElementRef,
+    private trumbowygService: TrumbowygService
   ) {}
 
   ngOnInit () {
-    this.loaded$ = this.trumbowygService.loaded().filter(loaded => loaded);
+    this.loaded$ = this.trumbowygService.loaded(this.options.lang).filter(loaded => loaded);
 
-    this.loadedSubscription = this.loaded$
-        .do(() => {
-          let translationLoaded$ = this.trumbowygService.translationLoaded(this.lang).filter(loaded => loaded);
-          translationLoaded$.do(() => {
-            let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
-            el.trumbowyg({lang: this.lang});
-            if(this.liveUpdate) {
-              el.trumbowyg().on('tbwchange', () => {
-                this.savedContent.emit(el.trumbowyg('html'));
-              })
-            }
-          }).subscribe();
-        })
-        .switchMap(() => this.content$)
-        .subscribe(content => {
-          if(content) {
-            let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
-            el.trumbowyg('html', content);
-            this.savedContent.emit(el.trumbowyg('html'));
-          }
-        });
+    this.loaded$ //initialize
+      .take(1)
+      .subscribe(() => {
+        this.trumbowygEl = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
+        this.trumbowygEl.trumbowyg(this.options);
+        if(this.initialContent) this.content$.next(this.initialContent);
+        if(this.liveUpdate) {
+          this.trumbowygEl.trumbowyg().on('tbwchange', () => {
+            this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
+          })
+        }
+      });
+
+    this.contentSub = this.content$
+      .filter(content => !!content)
+      .subscribe(content => {
+        console.log(content);
+        if(content) {
+          this.trumbowygEl.trumbowyg('html', content);
+          this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
+        }
+      });
 
     this.updateSubscription = this.update ? this.update
-        .subscribe(() => {
-          let el = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
-          this.savedContent.emit(el.trumbowyg('html'));
-        }) : null;
+      .subscribe(() => {
+        this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
+      }) : null;
   }
 
   ngOnDestroy() {
-    this.loadedSubscription.unsubscribe();
+    this.contentSub.unsubscribe();
     if(this.updateSubscription) this.updateSubscription.unsubscribe();
   }
 }
