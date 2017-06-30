@@ -46,7 +46,7 @@ import {Subject} from "rxjs";
       
     </trumbowyg>
     <button (click)="togglePreview()">Toggle Preview(with update)</button>
-    <button *ngIf="showPreview" (click)="update.next()">Update</button>
+    <button *ngIf="showPreview" (click)="update$.next()">Update</button>
     <h2>Preview Mode {{showPreview ? 'On':'Off'}} </h2>
     <div *ngIf="showPreview">
       <p [innerHTML]="contentOne"></p>
