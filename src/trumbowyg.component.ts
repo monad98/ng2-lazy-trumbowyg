@@ -34,6 +34,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
   @Input() liveUpdate = false;
   @Input() update: Observable<any>;
   @Input() options: any = {};
+  @Input() lazyLoading = true;
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
   private loaded$: Observable<boolean>;
@@ -49,7 +50,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit () {
-    this.loaded$ = this.trumbowygService.loaded(this.options.lang).filter(loaded => loaded);
+    this.loaded$ = this.trumbowygService.loaded(this.lazyLoading !== false, this.options.lang).filter(loaded => loaded);
 
     this.loaded$ //initialize
       .take(1)
