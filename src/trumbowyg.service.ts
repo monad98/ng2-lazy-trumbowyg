@@ -44,7 +44,10 @@ export class TrumbowygService {
     return fromPromise(Promise.resolve(true));
   }
 
-  public loaded(lang?: string): Observable<boolean> {
+  public loaded(lazyLoading: boolean, lang?: string): Observable<boolean> {
+    if(!lazyLoading){
+      return fromPromise(Promise.resolve(true));
+    }
     return this.isLoaded$
       .switchMap(() => {
         if(lang) return this.loadLang(lang);
