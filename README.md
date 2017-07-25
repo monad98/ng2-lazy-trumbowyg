@@ -1,6 +1,6 @@
 # ng2-lazy-trumbowyg
 Angular 2 Component for async loading of [Trumbowyg](https://alex-d.github.io/Trumbowyg/) wysiwyg editor
-Only few users on your app use text editor. This module let Angular app load Trumbowyg only for the users who write something.
+Only few users on your app use text editor. This module let Angular app load jQuery, Trumbowyg js files and css file only for the users who write something.
 
 [plunker example app](https://plnkr.co/edit/dirpKmLNalUmz0mpdrk7?p=preview)
 
@@ -48,9 +48,7 @@ import {Subject} from "rxjs";
     <button (click)="togglePreview()">Toggle Preview(with update)</button>
     <button *ngIf="showPreview" (click)="update$.next()">Update</button>
     <h2>Preview Mode {{showPreview ? 'On':'Off'}} </h2>
-    <div *ngIf="showPreview">
-      <p [innerHTML]="contentOne"></p>
-    </div>
+    <div *ngIf="showPreview" [innerHTML]="contentOne"></div>
     
     <br><br><br>
     
@@ -61,9 +59,7 @@ import {Subject} from "rxjs";
                (savedContent)="contentTwo=$event">
       
     </trumbowyg>
-    <div>
-      <p [innerHTML]="contentTwo"></p>
-    </div>
+    <div [innerHTML]="contentTwo"></div>
 
   `,
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -5,15 +5,8 @@ import {LoadExternalFiles} from "./src/load-external-file.service";
 
 @NgModule({
   imports: [],
-  declarations: [
-    Trumbowyg
-  ],
-  providers: [
-    TrumbowygService,
-    LoadExternalFiles
-  ],
-  exports: [
-    Trumbowyg
-  ]
+  declarations: [ Trumbowyg ],
+  providers: [ TrumbowygService, LoadExternalFiles ],
+  exports: [ Trumbowyg ]
 })
 export class TrumbowygModule {}

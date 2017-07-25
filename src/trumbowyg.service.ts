@@ -8,7 +8,7 @@ import {of} from "rxjs/observable/of";
 import {LoadExternalFiles} from "./load-external-file.service";
 
 const JQUERY_SCRIPT_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
-const TRUMBOWYG_PREFIX_URL = 'https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.4.2';
+const TRUMBOWYG_PREFIX_URL = 'https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.7.0';
 const TRUMBOWYG_STYLES_URL = TRUMBOWYG_PREFIX_URL + '/ui/trumbowyg.min.css';
 const TRUMBOWYG_SCRIPT_URL = TRUMBOWYG_PREFIX_URL + '/trumbowyg.min.js';
 
