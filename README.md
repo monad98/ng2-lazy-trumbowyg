@@ -60,7 +60,6 @@ import {Subject} from "rxjs";
       
     </trumbowyg>
     <div [innerHTML]="contentTwo"></div>
-
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -78,10 +77,16 @@ export class AppComponent {
     btns: [['bold', 'italic'], ['link']],
     lang: 'fr'
   };
-
   public options2: any = {
     lang: 'ru'
   };
+
+  constructor() {
+    setTimeout(() => {
+      this.initialContentOne = "<h1>Contents can be manually updated.</h1>"
+      this.update$.next(); // this is needed only when you use ChangeDetectionStrategy.OnPush strategy
+    },2000);
+  }
 
   togglePreview() {
     this.showPreview = !this.showPreview;

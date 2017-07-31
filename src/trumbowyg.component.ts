@@ -1,5 +1,5 @@
 import {
-  Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output
+  Component, ElementRef, OnDestroy, Input, OnInit, EventEmitter, Output, OnChanges, SimpleChanges
 } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {TrumbowygService} from "./trumbowyg.service";
@@ -17,7 +17,7 @@ declare const jQuery: any;
     <div id="ng-trumbowyg"></div>
   `
 })
-export class Trumbowyg implements OnInit, OnDestroy {
+export class Trumbowyg implements OnInit, OnDestroy, OnChanges {
 
   /**
    * @deprecated use 'update' for a preview
@@ -37,6 +37,7 @@ export class Trumbowyg implements OnInit, OnDestroy {
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
   private loaded$: Observable<boolean>;
+  private readyToUse$: Subject<boolean> = new Subject();
   private content$: Subject<string> = new BehaviorSubject("");
 
   private contentSub: any;
@@ -56,28 +57,36 @@ export class Trumbowyg implements OnInit, OnDestroy {
       .subscribe(() => {
         this.trumbowygEl = jQuery(this.el.nativeElement).find('#ng-trumbowyg');
         this.trumbowygEl.trumbowyg(this.options);
-        if(this.initialContent) this.content$.next(this.initialContent);
         if(this.liveUpdate) {
           this.trumbowygEl.trumbowyg().on('tbwchange', () => {
             this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
           })
         }
+        this.readyToUse$.next(true);
+
       });
 
-    this.contentSub = this.content$
-      .filter(content => !!content)
+    this.contentSub = this.readyToUse$.take(1)
+      .switchMap(() => this.content$.filter(content => !!content))
       .subscribe(content => {
-        console.log(content);
         if(content) {
           this.trumbowygEl.trumbowyg('html', content);
           this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
         }
       });
 
-    this.updateSubscription = this.update ? this.update
-      .subscribe(() => {
-        this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
-      }) : null;
+    this.updateSubscription = this.update ?
+      this.readyToUse$.take(1)
+        .switchMap(() => this.update)
+        .subscribe(() => {
+          this.savedContent.emit(this.trumbowygEl.trumbowyg('html'));
+        }) : null;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.initialContent) {
+      this.content$.next(changes.initialContent.currentValue);
+    }
   }
 
   ngOnDestroy() {
