@@ -4,6 +4,7 @@ import {
 import {Observable} from "rxjs/Observable";
 import {TrumbowygService} from "./trumbowyg.service";
 import {Subject} from "rxjs/Subject";
+import {ReplaySubject} from "rxjs/ReplaySubject";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/take";
@@ -37,7 +38,7 @@ export class Trumbowyg implements OnInit, OnDestroy, OnChanges {
   @Output() public savedContent: EventEmitter<any> = new EventEmitter();
 
   private loaded$: Observable<boolean>;
-  private readyToUse$: Subject<boolean> = new Subject();
+  private readyToUse$: ReplaySubject<boolean> = new ReplaySubject();
   private content$: Subject<string> = new BehaviorSubject("");
 
   private contentSub: any;
