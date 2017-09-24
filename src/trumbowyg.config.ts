@@ -1,4 +1,5 @@
 
 export class TrumbowygConfig {
-  plugins: string[];
+  plugins?: string[];
+  version?: string;
 }

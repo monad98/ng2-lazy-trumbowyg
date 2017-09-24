@@ -1,45 +1,3 @@
-# ng2-lazy-trumbowyg
-Angular 2 Component for async loading of [Trumbowyg](https://alex-d.github.io/Trumbowyg/) wysiwyg editor
-Only few users on your app use text editor. This module let Angular app load jQuery, Trumbowyg js files and css file only for the users who write something.
-
-[plunker example app](https://plnkr.co/edit/dirpKmLNalUmz0mpdrk7?p=preview)
-
-[Demo app with SystemJS (github)](https://github.com/monad98/ng2-lazy-trumbowyg-example)
-
-[Demo app with Angular-CLI (github)](https://github.com/monad98/ng2-lazy-trumbowyg-example-angularCLI)
-
-# Install
-`
-npm install ng2-lazy-trumbowyg --save
-`
-
-# Usage
-import TrumbowygModule in `app.module.ts`
-```javascript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import {TrumbowygModule} from 'ng2-lazy-trumbowyg';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    // If you want default version (2.8.0) and don't need plug-in, include this line.
-    //TrumbowygModule,  
-    //emoji doesn't work yet due to its dependency. table plug-in and insertaudio don't have icons.
-    TrumbowygModule.forRoot({plugins: ['colors', 'noembed', 'preformatted', 'pasteimage', 'upload'], version: '2.8.0'}) //Optional config : plug-ins and version
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-```
-
-include <trumbowyg> in component template
-```javascript
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {Subject} from "rxjs";
 
@@ -69,7 +27,8 @@ import {Subject} from "rxjs";
       
     </trumbowyg>
     <div [innerHTML]="contentTwo"></div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   public showPreview: boolean = false;
@@ -82,7 +41,7 @@ export class AppComponent {
     autogrow: true,
     removeformatPasted: true,
     semantic: false,
-    btns: [['bold', 'italic'], ['link'],['foreColor', 'backColor'], ['preformatted'], ['noembed']],
+    btns: [['bold', 'italic'], ['link'],['foreColor', 'backColor'], ['preformatted'], ['noembed'], ['upload']],
     lang: 'fr'
   };
 
@@ -96,27 +55,9 @@ export class AppComponent {
   }
 
   constructor() {
-
-    //Initial content update.
     setTimeout(() => {
       this.initialContentOne = "<h1>Contents can be manually updated 2</h1>"
       this.update$.next(); // this is needed only when you use ChangeDetectionStrategy.OnPush strategy
     },2000);
   }
 }
-
-```
-
-# Example app
-`cd example`
-
-`npm install`
-
-`ng serve`
-
-
-
-# Build
-`
-npm run build
-`
