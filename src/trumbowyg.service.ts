@@ -29,7 +29,7 @@ export class TrumbowygService {
     @Optional() config: TrumbowygConfig
   ) {
 
-    this.TRUMBOWYG_PREFIX_URL = `https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/${config.version || '2.8.0'}`;
+    this.TRUMBOWYG_PREFIX_URL = `https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/${(config && config.version) || '2.8.0'}`;
     this.TRUMBOWYG_PLUGINS_PREFIX = this.TRUMBOWYG_PREFIX_URL + '/plugins';
     this.TRUMBOWYG_STYLES_URL = this.TRUMBOWYG_PREFIX_URL + '/ui/trumbowyg.min.css';
     this.TRUMBOWYG_SCRIPT_URL = this.TRUMBOWYG_PREFIX_URL + '/trumbowyg.min.js';
