@@ -31,9 +31,9 @@ import {Subject} from 'rxjs/Subject';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  public showPreview: boolean = false;
-  public initialContentOne: string = `<h2>This is an initial title One.</h2><p>This is an initial content.</p><p><img src="https://angular.io/assets/images/logos/angular/angular.svg" alt=""><br></p><p><br></p>`
-  public initialContentTwo: string = `<h2>This is an initial title Two.</h2><p>This is an initial content.</p><p><img src="https://angular.io/generated/images/marketing/home/loved-by-millions.svg" alt=""><br></p><p><br></p>`
+  public showPreview = false;
+  public initialContentOne = `<h2>This is an initial title One.</h2><p>This is an initial content.</p><p><img src="https://angular.io/assets/images/logos/angular/angular.svg" alt=""><br></p><p><br></p>`;
+  public initialContentTwo = `<h2>This is an initial title Two.</h2><p>This is an initial content.</p><p><img src="https://angular.io/generated/images/marketing/home/loved-by-millions.svg" alt=""><br></p><p><br></p>`;
   public contentOne: string;
   public contentTwo: string;
   public update$: Subject<any> = new Subject();
@@ -41,7 +41,7 @@ export class AppComponent {
     autogrow: true,
     removeformatPasted: true,
     semantic: false,
-    btns: [['bold', 'italic'], ['link'],['foreColor', 'backColor'], ['preformatted'], ['noembed'], ['upload']],
+    btns: [['bold', 'italic'], ['link'], ['foreColor', 'backColor'], ['preformatted'], ['noembed'], ['upload']],
     lang: 'fr'
   };
 
@@ -51,13 +51,15 @@ export class AppComponent {
 
   togglePreview() {
     this.showPreview = !this.showPreview;
-    if(this.showPreview) this.update$.next();
+    if (this.showPreview) {
+      this.update$.next();
+    }
   }
 
   constructor() {
     setTimeout(() => {
-      this.initialContentOne = "<h1>Contents can be manually updated 2</h1>"
+      this.initialContentOne = '<h1>Contents can be manually updated 2</h1>';
       this.update$.next(); // this is needed only when you use ChangeDetectionStrategy.OnPush strategy
-    },2000);
+    }, 2000);
   }
 }
