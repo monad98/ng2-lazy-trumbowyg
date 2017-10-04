@@ -41,7 +41,7 @@ export class AppModule { }
 include <trumbowyg> in component template
 ```javascript
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-root',
