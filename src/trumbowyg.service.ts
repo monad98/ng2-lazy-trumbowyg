@@ -4,10 +4,10 @@ import "rxjs/add/operator/publishReplay";
 import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import {fromPromise} from "rxjs/observable/fromPromise";
 import {of} from "rxjs/observable/of";
 import {TrumbowygConfig} from "./trumbowyg.config";
 import {LoadExternalFiles} from "./load-external-file.service";
+import {from} from "rxjs/observable/from";
 
 const JQUERY_SCRIPT_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
 
@@ -29,7 +29,7 @@ export class TrumbowygService {
     @Optional() config: TrumbowygConfig
   ) {
 
-    this.TRUMBOWYG_PREFIX_URL = `https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/${(config && config.version) || '2.8.0'}`;
+    this.TRUMBOWYG_PREFIX_URL = `https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/${(config && config.version) || '2.9.4'}`;
     this.TRUMBOWYG_PLUGINS_PREFIX = this.TRUMBOWYG_PREFIX_URL + '/plugins';
     this.TRUMBOWYG_STYLES_URL = this.TRUMBOWYG_PREFIX_URL + '/ui/trumbowyg.min.css';
     this.TRUMBOWYG_SCRIPT_URL = this.TRUMBOWYG_PREFIX_URL + '/trumbowyg.min.js';
@@ -38,14 +38,14 @@ export class TrumbowygService {
     const trumbowygPlugInFiles = this.parsePlugins(config);
 
     const loadBasicFiles$ = window && window["jQuery"] && window["jQuery"]().on ?
-      fromPromise(loadFiles.load(...trumbowygFiles))
-      : fromPromise(loadFiles.load(JQUERY_SCRIPT_URL))
+      from(loadFiles.load(...trumbowygFiles))
+      : from(loadFiles.load(JQUERY_SCRIPT_URL))
         .switchMap(() =>
-          fromPromise(loadFiles.load(...trumbowygFiles))
+          loadFiles.load(...trumbowygFiles)
         );
     const loadFiles$ = loadBasicFiles$
       .switchMap(() =>
-        fromPromise(loadFiles.load(...trumbowygPlugInFiles))
+        loadFiles.load(...trumbowygPlugInFiles)
           .catch(err => of(err))
       );
 
@@ -70,14 +70,14 @@ export class TrumbowygService {
 
   private loadLang(lang: string): Observable<any> {
     if(this.loadedLangs.indexOf(lang) < 0)
-      return fromPromise(
+      return from(
         this.loadFiles.load(`${this.TRUMBOWYG_PREFIX_URL}/langs/${lang}.min.js`)
           .then(() => {
             this.loadedLangs.push(lang);
             return true;
           })
       );
-    return fromPromise(Promise.resolve(true));
+    return from(Promise.resolve(true));
   }
 
   public loaded(lang?: string): Observable<boolean> {

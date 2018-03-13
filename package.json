@@ -1,6 +1,6 @@
 {
   "name": "ng2-lazy-trumbowyg",
-  "version": "2.4.1",
+  "version": "2.4.3",
   "description": "Angular 2 Component for lazy loading of Trumbowyg wysiwyg editor",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "@angular/core": "^2.4.0",
     "@angular/compiler": "^2.4.0",
     "@angular/compiler-cli": "^2.4.0",
-    "rollup": "^0.41.6",
+    "rollup": "^0.56.5",
     "typescript": "^2.0.10",
     "uglify-js": "^2.8.21",
     "zone.js": "^0.7.2"
