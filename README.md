@@ -27,10 +27,10 @@ import {TrumbowygModule} from 'ng2-lazy-trumbowyg';
   ],
   imports: [
     BrowserModule,
-    // If you want default version (2.8.0) and don't need plug-in, include this line.
+    // If you want default version (2.9.4) and don't need plug-in, include this line.
     //TrumbowygModule,  
     //emoji doesn't work yet due to its dependency. table plug-in and insertaudio don't have icons.
-    TrumbowygModule.forRoot({plugins: ['colors', 'noembed', 'preformatted', 'pasteimage', 'upload'], version: '2.8.0'}) //Optional config : plug-ins and version
+    TrumbowygModule.forRoot({plugins: ['colors', 'noembed', 'preformatted', 'pasteimage', 'upload'], version: '2.9.4'}) //Optional config : plug-ins and version
   ],
   bootstrap: [AppComponent]
 })

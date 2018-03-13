@@ -46,3 +46,6 @@ typings
 *.ngfactory.ts
 /aot/
 /dist/
+package-lock.json
+.DS_Store
+example/src/app/temp
